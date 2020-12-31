@@ -8,4 +8,4 @@ I will implement a tooling website solution as a member of a Devops team. The in
 
 
 
-![Architectural setup of the solution](p1.jpg)
+![Architectural setup of the solution](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/p1.jpg)

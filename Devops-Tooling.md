@@ -48,24 +48,24 @@ I created mount points directory for the logical volumes
 
 I mounted them as shown below
 
-![](mount.jpg)
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/mount.jpg)
 
 
 I formatted the disks with the xfs file system as show below
 mkfs.xfs /dev/vg-apps/lv-apps – first make it an xfs filesystem
 mkfs.xfs /dev/vg-logs/lv-logs – first make it an xfs filesystem
 
-![](xfs.png)
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/xfs.png)
 
 
 To ensure that all the mounts  persists after reboot i edit the /etc/fstab config as follows
-![](uuid.jpg)
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/uuid.jpg)
 
 
 Then i Check the mount.
 ```df -h```
 
-![](output.png)
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/output.png)
 
 
 
@@ -90,13 +90,13 @@ I edited the /etc/exports to allow the NFS for remote servers as shown below
 ```sudo nano /etc/exports```
 
 
-![](export.png)
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/export.png)
 
 Export NFS shares as shown below
 ```exportfs -ra```
 ```exportfs -v```
 
-![](exportfs.png)
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/exportfs.png)
 
 
 Then, i have the firewalld service running, I need to allow traffic to the necessary NFS services (mountd, nfs, rpc-bind) via the firewall, then reload the firewall rules to apply the changes, as follows.
