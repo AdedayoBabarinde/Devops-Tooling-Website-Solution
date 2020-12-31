@@ -24,19 +24,19 @@ NFS Server 192.168.1.131
 
 
 I created physical volume,logical volumes and volume group as follows:
- ```Pvcreate /dev/sdb /dev/sdc /dev/sdd``` --- creating physical volumes
+- ```Pvcreate /dev/sdb /dev/sdc /dev/sdd``` --- creating physical volumes
  
- ```lvcreate -l 100%FREE -n lv-apps vg-apps``` – to create logical volumes for app on the bloume group app using all the available space
+- ```lvcreate -l 100%FREE -n lv-apps vg-apps``` – to create logical volumes for app group using all the available space
 
-  ```lvcreate -l 100%FREE -n lv-logs vg-logs``` – to create logical volumes for app on the bloume group logs using all the available space
+- ```lvcreate -l 100%FREE -n lv-logs vg-logs``` – to create logical volumes for logs using all the available space
  
- ```lvcreate -l 100%FREE -n lv-opt vg-opt``` – to create logical volumes for opt on the volume group opt using all the available space
+- ```lvcreate -l 100%FREE -n lv-opt vg-opt``` – to create logical volumes for opt on the volume group opt using all the available space
 
- ```Vgcreate vg-apps /dev/sdb``` – to create volume group for apps on the ```/dev/sdb```
+- ```Vgcreate vg-apps /dev/sdb``` – to create volume group for apps on the ```/dev/sdb```
  
- ```Vgcreate vg-logs /dev/sdc``` – to create volume group for logs on the ```/dev/sdc```
+- ```Vgcreate vg-logs /dev/sdc``` – to create volume group for logs on the ```/dev/sdc```
  
-``` Vgcreate vg-opt /dev/sdd``` – to create volume group for opt on the ```/dev/sdd```
+- ``` Vgcreate vg-opt /dev/sdd``` – to create volume group for opt on the ```/dev/sdd```
 
 I created mount points for logs,html and opt on 
 ```/mnt``` directory for the logical volumes as follows
@@ -64,6 +64,7 @@ To ensure that all the mounts  persists after reboot i edit the /etc/fstab confi
 
 Then i Check the mount.
 ```df -h```
+
 ![](output.png)
 
 
