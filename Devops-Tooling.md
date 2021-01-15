@@ -1,7 +1,7 @@
 **Devops Tooling Website Solution**
 
 
-In this Project the set up of NFS shared folders to 3 Apache Apache Web Servers will be demonstrated.
+In this Project the set up of NFS shared folders to 3 Apache Web Servers will be demonstrated.
 
 This is caried out to provide a Devops Tooling Website Solution.
 
@@ -13,8 +13,8 @@ The aim of this work is to understand the use of  NFS servers to store logs and 
 
 MySQL Server 192.168.1.132
 Web Server1 192.168.1.223
-Web Server2 192.168.1.130
-Web Server3 192.168.1.294
+Web Server2 192.168.1.122
+Web Server3 192.168.1.249
 NFS Server 192.168.1.131
 
 
@@ -106,3 +106,86 @@ firewall-cmd --permanent --add-service=rpc-bind
 firewall-cmd --permanent --add-service=mountd
 firewall-cmd --permanent --add-source=192.168.1.0/24
 firewall-cmd --reload
+
+
+
+
+Step 2 — Configure the database server
+
+Install Mysql
+
+```sudo apt install mysql-server```
+
+-perform mysql secure installation
+
+```sudo mysql_secure_installation```
+
+
+ Login as root , create a database named "tooling" and create a user account named "webaccess" as shown in the figure below:
+
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/mysqllogin.png)
+
+
+-
+- Grant permission to webaccess user on tooling database to do anything only from the webservers subnet (192.168.1.0/24)
+
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/privi.png)
+
+
+
+- Save changes
+
+```FLUSH PRIVILEGES;```
+
+Exit mysql.
+
+- Edit the bind config  file on the mysql server to allow remote connections
+
+ ```sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf```
+
+Change the bind address  as follows
+ ```bind-address            = 0.0.0.0```
+
+
+ - Restart the MySQL service to effect the changes 
+
+ ```sudo systemctl restart mysql```
+
+ - Enable Firewall
+
+ ```sudo ufw enable```
+
+ - Allow mysql connection from the subnet range
+
+```sudo ufw allow from 192.168.1.0/24 to any port 3306```
+
+
+- Install GIT ON THE mysql server  to allow importation of sql dump file .
+
+```sudo apt install git```
+
+- Clone the required github repository
+```git clone https://github.com/dinulhaque/tooling.git /tmp/tooling```
+
+- Import sql dump file
+
+```mysql -u webaccess  -h 192.168.1.120 -p tooling  < /tmp/tooling/tooling-db.sql```
+
+
+
+ **Prepare the Web Servers**
+
+ - Install NFS client
+
+ ```sudo apt install nfs-common```
+
+ - Mount /var/www/ and target the NFS server’s export for apps
+
+
+
+ - Install apache
+
+ ```sudo apt install apache2```
+
+ - Locate the log folder for Apache and mount it, targeting the NFS server’s export for logs
+ 
