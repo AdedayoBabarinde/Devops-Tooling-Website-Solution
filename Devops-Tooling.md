@@ -15,45 +15,60 @@ MySQL Server 192.168.1.132
 Web Server1 192.168.1.223
 Web Server2 192.168.1.122
 Web Server3 192.168.1.249
-NFS Server 192.168.1.131
+NFS Server 192.168.1.142
 
 
 
 
 **SETTING UP THE NFS SERVER**
 
+- I added 3 disks to the NFS server and i used `gdisk` to create LVM partition on the disks /dev/sdb, /dev/sdc, /dev/sdd
+
+```
+sudo gdisk /dev/sdb1
+sudo gdisk /dev/sdc1
+sudo gdisk /dev/sdd1	
+```
+
+
 
 I created physical volume,logical volumes and volume group as follows:
-- ```Pvcreate /dev/sdb /dev/sdc /dev/sdd``` --- creating physical volumes
+- ```Pvcreate /dev/sdb1 /dev/sdc1 /dev/sdd1``` --- creating physical volumes
  
+
+- ```Vgcreate vg-apps /dev/sdb1``` – to create volume group for apps on the ```/dev/sdb```
+ 
+- ```Vgcreate vg-logs /dev/sdc1``` – to create volume group for logs on the ```/dev/sdc```
+ 
+- ``` Vgcreate vg-opt /dev/sdd1``` – to create volume group for opt on the ```/dev/sdd```
+
 - ```lvcreate -l 100%FREE -n lv-apps vg-apps``` – to create logical volumes for app group using all the available space
 
 - ```lvcreate -l 100%FREE -n lv-logs vg-logs``` – to create logical volumes for logs using all the available space
  
 - ```lvcreate -l 100%FREE -n lv-opt vg-opt``` – to create logical volumes for opt on the volume group opt using all the available space
 
-- ```Vgcreate vg-apps /dev/sdb``` – to create volume group for apps on the ```/dev/sdb```
- 
-- ```Vgcreate vg-logs /dev/sdc``` – to create volume group for logs on the ```/dev/sdc```
- 
-- ``` Vgcreate vg-opt /dev/sdd``` – to create volume group for opt on the ```/dev/sdd```
+I formatted the disks with the xfs file system as show below
+```mkfs.xfs /dev/vg-apps/lv-apps``` – first make it an xfs filesystem
+```mkfs.xfs /dev/vg-logs/lv-logs``` – first make it an xfs filesystem
+```mkfs.xfs /dev/vg-opt/lv-opt``` – first make it an xfs filesystem
+
 
 I created mount points for logs,html and opt on 
 ```/mnt``` directory for the logical volumes as follows
 
 I created mount points directory for the logical volumes
 
-- Mkdir /mnt/html – making directory for html
-- Mkdir /mnt/logs – making directory for logs
+- ```mkdir /mnt/html``` – making directory for html
+- ```mkdir /mnt/logs``` – making directory for logs
+- - ```mkdir /mnt/opt``` – making directory for logs
+
 
 I mounted them as shown below
 
 ![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/mount.jpg)
 
 
-I formatted the disks with the xfs file system as show below
-mkfs.xfs /dev/vg-apps/lv-apps – first make it an xfs filesystem
-mkfs.xfs /dev/vg-logs/lv-logs – first make it an xfs filesystem
 
 ![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/xfs.png)
 
@@ -70,9 +85,9 @@ Then i Check the mount.
 
 
 I changed the permision on the following folders as follows:
-```chmod a+rwx /mnt/html/```
-```chmod a+rwx /mnt/logs/```
-```chmod a+rwx /mnt/opt/`
+```chmod 777 /mnt/html/```
+```chmod 777 /mnt/logs/```
+```chmod 777 /mnt/opt/`
 
  
 
@@ -99,13 +114,9 @@ Export NFS shares as shown below
 ![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/exportfs.png)
 
 
-Then, i have the firewalld service running, I need to allow traffic to the necessary NFS services (mountd, nfs, rpc-bind) via the firewall, then reload the firewall rules to apply the changes, as follows.
+Use the following command to open port 2049 on the webserver
 
-firewall-cmd --permanent --add-service=nfs
-firewall-cmd --permanent --add-service=rpc-bind
-firewall-cmd --permanent --add-service=mountd
-firewall-cmd --permanent --add-source=192.168.1.0/24
-firewall-cmd --reload
+```sudo ufw allow from webserver_ip to any port nfs```
 
 
 
@@ -189,3 +200,11 @@ Change the bind address  as follows
 
  - Locate the log folder for Apache and mount it, targeting the NFS server’s export for logs
  
+
+
+
+
+
+ Credits:
+
+ [DevOps with Darey](www.darey.io)
