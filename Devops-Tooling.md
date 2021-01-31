@@ -11,11 +11,11 @@ The aim of this work is to understand the use of  NFS servers to store logs and 
 
 **Network Information**
 
-MySQL Server 192.168.1.132
-Web Server1 192.168.1.223
-Web Server2 192.168.1.122
-Web Server3 192.168.1.249
-NFS Server 192.168.1.142
+- MySQL Server 192.168.1.132
+- Web Server1 192.168.1.223
+- Web Server2 192.168.1.122
+- Web Server3 192.168.1.249
+- NFS Server 192.168.1.142
 
 
 
@@ -73,11 +73,11 @@ I mounted them as shown below
 ![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/xfs.png)
 
 
-To ensure that all the mounts  persists after reboot i edit the /etc/fstab config as follows
+To ensure that all the mounts  persists after reboot i edited the /etc/fstab config as follows
 ![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/uuid.jpg)
 
 
-Then i Check the mount.
+Then i Checked the mount.
 ```df -h```
 
 ![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/output.png)
@@ -114,55 +114,55 @@ Export NFS shares as shown below
 ![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/exportfs.png)
 
 
-Use the following command to open port 2049 on the webserver
+I used the following command to open port 2049 on the webserver
 
 ```sudo ufw allow from webserver_ip to any port nfs```
 
 
 
 
-Step 2 — Configure the database server
+**Step 2 — Configure the database server**
 
 Install Mysql
 
 ```sudo apt install mysql-server```
 
--perform mysql secure installation
+-I performed mysql secure installation
 
 ```sudo mysql_secure_installation```
 
 
- Login as root , create a database named "tooling" and create a user account named "webaccess" as shown in the figure below:
+ I Logged in as root , created a database named "tooling" and created a user account named "webaccess" as shown in the figure below:
 
 ![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/mysqllogin.png)
 
 
 -
-- Grant permission to webaccess user on tooling database to do anything only from the webservers subnet (192.168.1.0/24)
+-I Granted permission to webaccess user on tooling database to do anything only from the webservers subnet (192.168.1.0/24)
 
 ![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/privi.png)
 
 
 
-- Save changes
+- I saved changes
 
 ```FLUSH PRIVILEGES;```
 
 Exit mysql.
 
-- Edit the bind config  file on the mysql server to allow remote connections
+-I edited the bind config  file on the mysql server to allow remote connections
 
  ```sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf```
 
-Change the bind address  as follows
+I changed the bind address  as follows
  ```bind-address            = 0.0.0.0```
 
 
- - Restart the MySQL service to effect the changes 
+ -I restarted the MySQL service to effect the changes 
 
  ```sudo systemctl restart mysql```
 
- - Enable Firewall
+ - I enabled Firewall
 
  ```sudo ufw enable```
 
@@ -171,14 +171,14 @@ Change the bind address  as follows
 ```sudo ufw allow from 192.168.1.0/24 to any port 3306```
 
 
-- Install GIT ON THE mysql server  to allow importation of sql dump file .
+-I installed GIT ON THE mysql server  to allow importation of sql dump file .
 
 ```sudo apt install git```
 
-- Clone the required github repository
+-I cloned the required github repository
 ```git clone https://github.com/dinulhaque/tooling.git /tmp/tooling```
 
-- Import sql dump file
+-I imported sql dump file
 
 ```mysql -u webaccess  -h 192.168.1.120 -p tooling  < /tmp/tooling/tooling-db.sql```
 
@@ -186,11 +186,11 @@ Change the bind address  as follows
 
  **Prepare the Web Servers**
 
- - Install NFS client
+ -I installed NFS client
 
  ```sudo apt install nfs-common```
 
- - Mount /var/www/ and target the NFS server’s export for apps
+ -I mounted /var/www/ and target the NFS server’s export for apps
 
 
 
@@ -198,7 +198,7 @@ Change the bind address  as follows
 
  ```sudo apt install apache2```
 
- - Locate the log folder for Apache and mount it, targeting the NFS server’s export for logs
+ -I located the log folder for Apache and mount it, targeting the NFS server’s export for logs
  
 
 
@@ -208,3 +208,5 @@ Change the bind address  as follows
  Credits:
 
  [DevOps with Darey](www.darey.io)
+ 
+ [Install Git on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-20-04)
