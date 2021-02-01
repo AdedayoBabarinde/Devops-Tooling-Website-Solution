@@ -198,10 +198,34 @@ I changed the bind address  as follows
 
  ```sudo apt install apache2```
 
- -I located the log folder for Apache and mount it, targeting the NFS server’s export for logs
+ - I backed up the contents of `/var/www` directory as follows:
+
+ Create a backup directory with `sudo mkdir /varwww.bak`
  
+ Copy the contents of `/var/www` into the backup directory with `sudo cp -R /var/www/* /varwww.bak`
+
+I mounted /var/www/ and targeted the NFS server’s export for apps with `sudo mount 192.168.1.142:/mnt/html /var/www`
 
 
+
+I backed up the Apache log files before mounting
+
+I created the back up directory for log files with `sudo mkdir /varlogapache2.bak`
+
+I backed up the contents of the log folder for Apache with `sudo cp -R /var/log/apache2/* /varlogapache2.bak`
+
+ -I located the log folder for Apache and mount it, targeting the NFS server’s export for logs
+ `sudo mount 192.168.1.142:/mnt/logs /var/log/apache2`
+
+
+-I Forked a tooling source code from  my Github account
+
+I install git on the webservers
+`sudo apt install git`
+I cloned the repository to the webservers
+`git clone https://github.com/darey-io/tooling.git`
+
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/clone.jpg)
 
 
 
