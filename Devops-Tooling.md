@@ -229,8 +229,45 @@ I cloned the repository to the webservers
 
 
 
+
+**Deployment of the tooling website’s code to the webserver**
+
+- I checked if the tooling website have been cloned succesfully
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/check.jpg)
+
+- I copied the contents of the `html` folder inside the `tooling` directory(`tooling/html`) in to the Apache 
+`/var/www` directory as shown
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/copy.jpg)
+
+
+- I checked the contents of `/var/www/html` to verify if the contents of `tooling/html` have been copied as shown:
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/verif.jpg) 
+
+
+- I installed `php` on the webserver
+`sudo apt install php libapache2-mod-php php-mysql`
+
+
+- I changed the page loading sequence and Apache defaults landing page by making `login.php` first in the queue as follows:
+`sudo nano /etc/apache2/mods-enabled/dir.conf`
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/order.jpg)
+
+- I restarted Apache with `sudo systemctl restart apache2`
+
+
+- The tooling website code should now be serving the domain name. I tested this by navigating to `http://192.168.1.130/login.php` as shown
+
+![](https://github.com/drazen-dee28/Devops-Tooling-Website-Solution/blob/main/devops_tooling/testing.jpg)
+
+
+
+- Hence i have implemented a tooling website solution. 
+
+
  Credits:
 
  [DevOps with Darey](www.darey.io)
  
  [Install Git on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-20-04)
+ 
+ [Install the Apache Web Server on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-20-04)
