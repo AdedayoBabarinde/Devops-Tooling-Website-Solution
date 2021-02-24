@@ -61,7 +61,7 @@ I created mount points directory for the logical volumes
 
 - ```mkdir /mnt/html``` – making directory for html
 - ```mkdir /mnt/logs``` – making directory for logs
-- - ```mkdir /mnt/opt``` – making directory for logs
+- ```mkdir /mnt/opt``` – making directory for logs
 
 
 I mounted them as shown below
@@ -87,7 +87,7 @@ Then i Checked the mount.
 I changed the permision on the following folders as follows:
 ```chmod 777 /mnt/html/```
 ```chmod 777 /mnt/logs/```
-```chmod 777 /mnt/opt/`
+```chmod 777 /mnt/opt/```
 
  
 
