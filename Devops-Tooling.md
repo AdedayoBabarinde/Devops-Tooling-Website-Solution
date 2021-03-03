@@ -25,9 +25,9 @@ The aim of this work is to understand the use of  NFS servers to store logs and 
 - I added 3 disks to the NFS server and i used `gdisk` to create LVM partition on the disks /dev/sdb, /dev/sdc, /dev/sdd
 
 ```
-sudo gdisk /dev/sdb1
-sudo gdisk /dev/sdc1
-sudo gdisk /dev/sdd1	
+sudo gdisk /dev/sdb
+sudo gdisk /dev/sdc
+sudo gdisk /dev/sdd	
 ```
 
 
