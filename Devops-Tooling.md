@@ -261,7 +261,7 @@ I cloned the repository to the webservers
 
 
 
-- Hence i have implemented a tooling website solution. 
+- Hence i have implemented a tooling website solution and will be done using AWS EC2 instances later
 
 
  Credits:
